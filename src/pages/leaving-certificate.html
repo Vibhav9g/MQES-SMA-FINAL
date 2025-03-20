@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaving Certificate - School Management System</title>
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar will be included via JavaScript -->
+        
+        <main class="content">
+            <header class="content-header">
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="user-info">
+                    <span>Admin</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </header>
+            
+            <div class="page-content">
+                <!-- Leaving Certificate Page -->
+                <div class="page" id="leaving-certificate">
+                    <h1>Leaving Certificate</h1>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="generate-lc-btn">Generate Certificate</button>
+                        <button class="btn btn-info" id="lc-history-btn">Certificate History</button>
+                        <button class="btn btn-success" id="lc-settings-btn">Certificate Settings</button>
+                    </div>
+                    
+                    <div class="lc-dashboard">
+                        <div class="card-container">
+                            <div class="card">
+                                <div class="card-icon bg-primary">
+                                    <i class="fas fa-certificate"></i>
+                                </div>
+                                <div class="card-info">
+                                    <h3>Certificates Issued</h3>
+                                    <h2 id="certificates-issued">0</h2>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-icon bg-success">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="card-info">
+                                    <h3>Certificates Approved</h3>
+                                    <h2 id="certificates-approved">0</h2>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-icon bg-warning">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="card-info">
+                                    <h3>Pending Approval</h3>
+                                    <h2 id="certificates-pending">0</h2>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-icon bg-info">
+                                    <i class="fas fa-print"></i>
+                                </div>
+                                <div class="card-info">
+                                    <h3>Printed Certificates</h3>
+                                    <h2 id="certificates-printed">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="recent-certificates">
+                            <h2>Recent Certificates</h2>
+                            <table class="data-table" id="recent-certificates-table">
+                                <thead>
+                                    <tr>
+                                        <th>Certificate No.</th>
+                                        <th>Student Name</th>
+                                        <th>Class</th>
+                                        <th>Issue Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Recent certificates will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modals -->
+    <!-- Generate Certificate Modal -->
+    <div class="modal" id="generate-lc-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Generate Leaving Certificate</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="generate-lc-form">
+                    <div class="form-group">
+                        <label for="lc-student-select">Select Student</label>
+                        <select id="lc-student-select" required>
+                            <option value="">Select Student</option>
+                            <!-- Student options will be populated here -->
+                        </select>
+                    </div>
+                    
+                    <div class="student-details" style="display: none;">
+                        <h3>Student Details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>GR Number</label>
+                                <p id="lc-gr-number"></p>
+                            </div>
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <p id="lc-student-name"></p>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Class</label>
+                                <p id="lc-class"></p>
+                            </div>
+                            <div class="form-group">
+                                <label>Date of Birth</label>
+                                <p id="lc-dob"></p>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Father's Name</label>
+                                <p id="lc-father-name"></p>
+                            </div>
+                            <div class="form-group">
+                                <label>Mother's Name</label>
+                                <p id="lc-mother-name"></p>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Admission Date</label>
+                                <p id="lc-admission-date"></p>
+                            </div>
+                            <div class="form-group">
+                                <label>Last Attendance Date</label>
+                                <input type="date" id="lc-last-attendance" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="certificate-details" style="display: none;">
+                        <h3>Certificate Details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="lc-issue-date">Issue Date</label>
+                                <input type="date" id="lc-issue-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lc-certificate-no">Certificate Number</label>
+                                <input type="text" id="lc-certificate-no" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="lc-reason">Reason for Leaving</label>
+                            <select id="lc-reason" required>
+                                <option value="">Select Reason</option>
+                                <option value="transfer">Transfer to Another School</option>
+                                <option value="completion">Completion of Studies</option>
+                                <option value="relocation">Family Relocation</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group" id="lc-other-reason-group" style="display: none;">
+                            <label for="lc-other-reason">Specify Other Reason</label>
+                            <input type="text" id="lc-other-reason">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="lc-conduct">Conduct</label>
+                            <select id="lc-conduct" required>
+                                <option value="">Select Conduct</option>
+                                <option value="excellent">Excellent</option>
+                                <option value="very_good">Very Good</option>
+                                <option value="good">Good</option>
+                                <option value="satisfactory">Satisfactory</option>
+                                <option value="fair">Fair</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="lc-remarks">Remarks</label>
+                            <textarea id="lc-remarks" rows="3"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary" id="lc-next-btn">Next</button>
+                        <button type="submit" class="btn btn-success" id="lc-generate-btn" style="display: none;">Generate Certificate</button>
+                        <button type="button" class="btn btn-secondary" id="lc-back-btn" style="display: none;">Back</button>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Certificate History Modal -->
+    <div class="modal" id="lc-history-modal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h2>Certificate History</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="filter-container">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="lc-history-date-from">From Date</label>
+                            <input type="date" id="lc-history-date-from">
+                        </div>
+                        <div class="form-group">
+                            <label for="lc-history-date-to">To Date</label>
+                            <input type="date" id="lc-history-date-to">
+                        </div>
+                        <div class="form-group">
+                            <label for="lc-history-class">Class</label>
+                            <select id="lc-history-class">
+                                <option value="">All Classes</option>
+                                <!-- Class options will be populated here -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="lc-history-status">Status</label>
+                            <select id="lc-history-status">
+                                <option value="">All Status</option>
+                                <option value="issued">Issued</option>
+                                <option value="approved">Approved</option>
+                                <option value="pending">Pending</option>
+                                <option value="printed">Printed</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary" id="lc-apply-filters">Apply Filters</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="history-list">
+                    <table class="data-table" id="lc-history-table">
+                        <thead>
+                            <tr>
+                                <th>Certificate No.</th>
+                                <th>Student Name</th>
+                                <th>Class</th>
+                                <th>Issue Date</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Certificate history data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Certificate Settings Modal -->
+    <div class="modal" id="lc-settings-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Certificate Settings</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="lc-settings-form">
+                    <div class="form-group">
+                        <label for="lc-school-name">School Name</label>
+                        <input type="text" id="lc-school-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lc-school-address">School Address</label>
+                        <textarea id="lc-school-address" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="lc-school-phone">School Phone</label>
+                            <input type="tel" id="lc-school-phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="lc-school-email">School Email</label>
+                            <input type="email" id="lc-school-email">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lc-school-logo">School Logo</label>
+                        <input type="file" id="lc-school-logo">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lc-signature">Principal's Signature</label>
+                        <input type="file" id="lc-signature">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lc-principal-name">Principal's Name</label>
+                        <input type="text" id="lc-principal-name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lc-certificate-template">Certificate Template</label>
+                        <select id="lc-certificate-template">
+                            <option value="template1">Template 1</option>
+                            <option value="template2">Template 2</option>
+                            <option value="template3">Template 3</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Settings</button>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

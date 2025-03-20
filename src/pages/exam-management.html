@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Management - School Management System</title>
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar will be included via JavaScript -->
+        
+        <main class="content">
+            <header class="content-header">
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="user-info">
+                    <span>Admin</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </header>
+            
+            <div class="page-content">
+                <!-- Exam Management Page -->
+                <div class="page" id="exam-management">
+                    <h1>Exam Management</h1>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="create-exam-btn">Create Exam</button>
+                        <button class="btn btn-info" id="exam-schedule-btn">Exam Schedule</button>
+                        <button class="btn btn-success" id="enter-marks-btn">Enter Marks</button>
+                        <button class="btn btn-warning" id="generate-results-btn">Generate Results</button>
+                    </div>
+                    
+                    <div class="exam-dashboard">
+                        <div class="card-container">
+                            <div class="card">
+                                <div class="card-icon bg-primary">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="card-info">
+                                    <h3>Upcoming Exams</h3>
+                                    <h2 id="upcoming-exams">0</h2>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-icon bg-success">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="card-info">
+                                    <h3>Completed Exams</h3>
+                                    <h2 id="completed-exams">0</h2>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-icon bg-warning">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="card-info">
+                                    <h3>Ongoing Exams</h3>
+                                    <h2 id="ongoing-exams">0</h2>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-icon bg-info">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="card-info">
+                                    <h3>Results Published</h3>
+                                    <h2 id="results-published">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="recent-exams">
+                            <h2>Recent Exams</h2>
+                            <table class="data-table" id="recent-exams-table">
+                                <thead>
+                                    <tr>
+                                        <th>Exam Name</th>
+                                        <th>Classes</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Recent exams will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modals -->
+    <!-- Create Exam Modal -->
+    <div class="modal" id="create-exam-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Exam</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="create-exam-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="exam-name">Exam Name</label>
+                            <input type="text" id="exam-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exam-type">Exam Type</label>
+                            <select id="exam-type" required>
+                                <option value="">Select Exam Type</option>
+                                <option value="unit_test">Unit Test</option>
+                                <option value="mid_term">Mid Term</option>
+                                <option value="final">Final Exam</option>
+                                <option value="practical">Practical Exam</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="exam-start-date">Start Date</label>
+                            <input type="date" id="exam-start-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exam-end-date">End Date</label>
+                            <input type="date" id="exam-end-date" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Select Classes</label>
+                        <div class="checkbox-group" id="exam-classes">
+                            <!-- Class checkboxes will be populated here -->
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="exam-description">Description</label>
+                        <textarea id="exam-description" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="result-publish-date">Result Publish Date</label>
+                        <input type="date" id="result-publish-date">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Create Exam</button>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Exam Schedule Modal -->
+    <div class="modal" id="exam-schedule-modal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h2>Exam Schedule</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="schedule-exam-select">Select Exam</label>
+                        <select id="schedule-exam-select" required>
+                            <option value="">Select Exam</option>
+                            <!-- Exam options will be populated here -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="schedule-class-select">Select Class</label>
+                        <select id="schedule-class-select" required>
+                            <option value="">Select Class</option>
+                            <!-- Class options will be populated here -->
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="schedule-container" style="display: none;">
+                    <h3>Exam Schedule</h3>
+                    <table class="data-table" id="schedule-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Subject</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Room</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Schedule data will be populated here -->
+                        </tbody>
+                    </table>
+                    
+                    <button class="btn btn-primary" id="add-schedule-btn">Add Subject</button>
+                    
+                    <div class="add-schedule-form" style="display: none;">
+                        <h3>Add Subject to Schedule</h3>
+                        <form id="add-schedule-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="schedule-date">Date</label>
+                                    <input type="date" id="schedule-date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="schedule-subject">Subject</label>
+                                    <select id="schedule-subject" required>
+                                        <option value="">Select Subject</option>
+                                        <!-- Subject options will be populated here -->
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="schedule-start-time">Start Time</label>
+                                    <input type="time" id="schedule-start-time" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="schedule-end-time">End Time</label>
+                                    <input type="time" id="schedule-end-time" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="schedule-room">Room</label>
+                                <input type="text" id="schedule-room" required>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Add to Schedule</button>
+                                <button type="button" class="btn btn-secondary" id="cancel-schedule">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Enter Marks Modal -->
+    <div class="modal" id="enter-marks-modal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h2>Enter Marks</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="marks-exam-select">Select Exam</label>
+                        <select id="marks-exam-select" required>
+                            <option value="">Select Exam</option>
+                            <!-- Exam options will be populated here -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="marks-class-select">Select Class</label>
+                        <select id="marks-class-select" required>
+                            <option value="">Select Class</option>
+                            <!-- Class options will be populated here -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="marks-subject-select">Select Subject</label>
+                        <select id="marks-subject-select" required>
+                            <option value="">Select Subject</option>
+                            <!-- Subject options will be populated here -->
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="marks-container" style="display: none;">
+                    <h3>Enter Student Marks</h3>
+                    <table class="data-table" id="marks-table">
+                        <thead>
+                            <tr>
+                                <th>Roll No.</th>
+                                <th>GR No.</th>
+                                <th>Student Name</th>
+                                <th>Max Marks</th>
+                                <th>Obtained Marks</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Student marks data will be populated here -->
+                        </tbody>
+                    </table>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary" id="save-marks">Save Marks</button>
+                        <button type="button" class="btn btn-secondary" id="cancel-marks">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Generate Results Modal -->
+    <div class="modal" id="generate-results-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Generate Results</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="results-exam-select">Select Exam</label>
+                        <select id="results-exam-select" required>
+                            <option value="">Select Exam</option>
+                            <!-- Exam options will be populated here -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="results-class-select">Select Class</label>
+                        <select id="results-class-select" required>
+                            <option value="">Select Class</option>
+                            <!-- Class options will be populated here -->
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="results-publish">Publish Results</label>
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="results-publish">
+                        <label for="results-publish">Make results visible to students/parents</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="results-sms">Send Results via SMS</label>
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="results-sms">
+                        <label for="results-sms">Send results to parents via SMS</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="results-whatsapp">Send Results via WhatsApp</label>
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="results-whatsapp">
+                        <label for="results-whatsapp">Send results to parents via WhatsApp</label>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="generate-results-btn">Generate Results</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-results">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../src/main.js"></script>
+</body>
+</html>

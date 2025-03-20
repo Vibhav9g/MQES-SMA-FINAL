@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Management - School Management System</title>
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar will be included via JavaScript -->
+        
+        <main class="content">
+            <header class="content-header">
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="user-info">
+                    <span>Admin</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </header>
+            
+            <div class="page-content">
+                <!-- Class Management Page -->
+                <div class="page" id="class-management">
+                    <h1>Class Management</h1>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="add-class-btn">Add Class</button>
+                        <button class="btn btn-danger" id="remove-class-btn">Remove Class</button>
+                        <button class="btn btn-info" id="manage-sections-btn">Manage Sections</button>
+                    </div>
+                    
+                    <div class="class-selection">
+                        <select id="class-select">
+                            <option value="">Select Class</option>
+                            <!-- Class options will be populated here -->
+                        </select>
+                    </div>
+                    
+                    <div class="class-details" style="display: none;">
+                        <div class="class-info-cards">
+                            <div class="card">
+                                <div class="card-icon bg-primary">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="card-info">
+                                    <h3>Total Students</h3>
+                                    <h2 id="class-total-students">0</h2>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-icon bg-success">
+                                    <i class="fas fa-chair"></i>
+                                </div>
+                                <div class="card-info">
+                                    <h3>Total Benches</h3>
+                                    <h2 id="class-total-benches">0</h2>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-icon bg-info">
+                                    <i class="fas fa-chalkboard-teacher"></i>
+                                </div>
+                                <div class="card-info">
+                                    <h3>Class Teacher</h3>
+                                    <h2 id="class-teacher">-</h2>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="class-tabs">
+                            <div class="tab-buttons">
+                                <button class="tab-btn active" data-tab="students-tab">Students</button>
+                                <button class="tab-btn" data-tab="timetable-tab">Time Table</button>
+                                <button class="tab-btn" data-tab="subjects-tab">Subject Teachers</button>
+                            </div>
+                            
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="students-tab">
+                                    <div class="search-container">
+                                        <input type="text" id="class-student-search" placeholder="Search student...">
+                                        <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                                    </div>
+                                    <table class="data-table" id="class-student-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Roll No.</th>
+                                                <th>GR No.</th>
+                                                <th>Name</th>
+                                                <th>Father's Name</th>
+                                                <th>Contact</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Class student data will be populated here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="tab-pane" id="timetable-tab">
+                                    <div class="timetable-container">
+                                        <table class="timetable" id="class-timetable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Time/Day</th>
+                                                    <th>Monday</th>
+                                                    <th>Tuesday</th>
+                                                    <th>Wednesday</th>
+                                                    <th>Thursday</th>
+                                                    <th>Friday</th>
+                                                    <th>Saturday</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Timetable data will be populated here -->
+                                            </tbody>
+                                        </table>
+                                        <div class="timetable-actions">
+                                            <button class="btn btn-primary" id="edit-timetable-btn">Edit Timetable</button>
+                                            <button class="btn btn-success" id="print-timetable-btn">Print Timetable</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tab-pane" id="subjects-tab">
+                                    <table class="data-table" id="subject-teacher-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Subject</th>
+                                                <th>Teacher</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Subject teacher data will be populated here -->
+                                        </tbody>
+                                    </table>
+                                    <button class="btn btn-primary" id="assign-subject-teacher-btn">Assign Subject Teacher</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modals -->
+    <!-- Add Class Modal -->
+    <div class="modal" id="add-class-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Class</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="add-class-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="class-name">Class Name</label>
+                            <input type="text" id="class-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="class-sections">Number of Sections</label>
+                            <input type="number" id="class-sections" min="1" max="10" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="class-room">Class Room</label>
+                            <input type="text" id="class-room" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="class-capacity">Capacity per Section</label>
+                            <input type="number" id="class-capacity" min="1" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="class-teacher-select">Class Teacher</label>
+                            <select id="class-teacher-select">
+                                <option value="">Select Class Teacher</option>
+                                <!-- Teacher options will be populated here -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="class-benches">Number of Benches</label>
+                            <input type="number" id="class-benches" min="1" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Add Class</button>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Remove Class Modal -->
+    <div class="modal" id="remove-class-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Remove Class</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="remove-class-form">
+                    <div class="form-group">
+                        <label for="remove-class-select">Select Class</label>
+                        <select id="remove-class-select" required>
+                            <option value="">Select Class</option>
+                            <!-- Class options will be populated here -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="remove-class-reason">Reason for Removal</label>
+                        <textarea id="remove-class-reason" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="transfer-students" checked>
+                            <label for="transfer-students">Transfer Students to Another Class</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" id="transfer-class-group">
+                        <label for="transfer-class-select">Transfer to Class</label>
+                        <select id="transfer-class-select">
+                            <option value="">Select Class</option>
+                            <!-- Class options will be populated here -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-danger">Remove Class</button>
+                        <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Manage Sections Modal -->
+    <div class="modal" id="manage-sections-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Manage Sections</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="sections-class-select">Select Class</label>
+                    <select id="sections-class-select" required>
+                        <option value="">Select Class</option>
+                        <!-- Class options will be populated here -->
+                    </select>
+                </div>
+                
+                <div class="sections-list" style="display: none;">
+                    <table class="data-table" id="sections-table">
+                        <thead>
+                            <tr>
+                                <th>Section</th>
+                                <th>Students</th>
+                                <th>Class Teacher</th>
+                                <th>Room</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Sections data will be populated here -->
+                        </tbody>
+                    </table>
+                    
+                    <div class="form-actions">
+                        <button class="btn btn-primary" id="add-section-btn">Add Section</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Timetable Modal -->
+    <div class="modal" id="edit-timetable-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Timetable</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="timetable-day">Day</label>
+                        <select id="timetable-day" required>
+                            <option value="monday">Monday</option>
+                            <option value="tuesday">Tuesday</option>
+                            <option value="wednesday">Wednesday</option>
+                            <option value="thursday">Thursday</option>
+                            <option value="friday">Friday</option>
+                            <option value="saturday">Saturday</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="timetable-period">Period</label>
+                        <select id="timetable-period" required>
+                            <option value="1">1st Period</option>
+                            <option value="2">2nd Period</option>
+                            <option value="3">3rd Period</option>
+                            <option value="4">4th Period</option>
+                            <option value="5">5th Period</option>
+                            <option value="6">6th Period</option>
+                            <option value="7">7th Period</option>
+                            <option value="8">8th Period</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="timetable-subject">Subject</label>
+                        <select id="timetable-subject" required>
+                            <option value="">Select Subject</option>
+                            <!-- Subject options will be populated here -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="timetable-teacher">Teacher</label>
+                        <select id="timetable-teacher" required>
+                            <option value="">Select Teacher</option>
+                            <!-- Teacher options will be populated here -->
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-timetable-entry">Save Entry</button>
+                    <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>

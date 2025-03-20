@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Management - School Management System</title>
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar will be included via JavaScript -->
+        
+        <main class="content">
+            <header class="content-header">
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="user-info">
+                    <span>Admin</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </header>
+            
+            <div class="page-content">
+                <!-- Teacher Management Page -->
+                <div class="page" id="teacher-management">
+                    <h1>Teacher Management</h1>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="add-teacher-btn">Add Teacher</button>
+                        <button class="btn btn-danger" id="remove-teacher-btn">Remove Teacher</button>
+                        <button class="btn btn-info" id="teacher-attendance-btn">Attendance</button>
+                        <button class="btn btn-success" id="salary-btn">Salary Management</button>
+                    </div>
+                    
+                    <div class="teacher-list-container">
+                        <h2>Teacher List</h2>
+                        <div class="search-container">
+                            <input type="text" id="teacher-search" placeholder="Search by name, subject, class...">
+                            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                        </div>
+                        <table class="data-table" id="teacher-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Subjects</th>
+                                    <th>Classes</th>
+                                    <th>Contact</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Teacher data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modals -->
+    <!-- Add Teacher Modal -->
+    <div class="modal" id="add-teacher-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Teacher</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="add-teacher-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="teacher-id">Teacher ID</label>
+                            <input type="text" id="teacher-id" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="teacher-name">Full Name</label>
+                            <input type="text" id="teacher-name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="teacher-dob">Date of Birth</label>
+                            <input type="date" id="teacher-dob" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="teacher-gender">Gender</label>
+                            <select id="teacher-gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="teacher-qualification">Qualification</label>
+                            <input type="text" id="teacher-qualification" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="teacher-experience">Experience (Years)</label>
+                            <input type="number" id="teacher-experience" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="teacher-contact">Contact Number</label>
+                            <input type="tel" id="teacher-contact" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="teacher-email">Email</label>
+                            <input type="email" id="teacher-email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="teacher-address">Address</label>
+                        <textarea id="teacher-address" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="teacher-subjects">Subjects</label>
+                            <select id="teacher-subjects" multiple required>
+                                <option value="mathematics">Mathematics</option>
+                                <option value="science">Science</option>
+                                <option value="english">English</option>
+                                <option value="hindi">Hindi</option>
+                                <option value="social-studies">Social Studies</option>
+                                <option value="computer">Computer</option>
+                                <option value="physical-education">Physical Education</option>
+                                <option value="art">Art</option>
+                                <option value="music">Music</option>
+                            </select>
+                            <small>Hold Ctrl/Cmd to select multiple subjects</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="teacher-classes">Classes</label>
+                            <select id="teacher-classes" multiple required>
+                                <!-- Class options will be populated here -->
+                            </select>
+                            <small>Hold Ctrl/Cmd to select multiple classes</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="teacher-photo">Teacher Photo</label>
+                            <input type="file" id="teacher-photo">
+                        </div>
+                        <div class="form-group">
+                            <label for="teacher-joining-date">Joining Date</label>
+                            <input type="date" id="teacher-joining-date" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="teacher-salary">Monthly Salary</label>
+                            <input type="number" id="teacher-salary" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="teacher-class-teacher">Class Teacher For</label>
+                            <select id="teacher-class-teacher">
+                                <option value="">None</option>
+                                <!-- Class options will be populated here -->
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Add Teacher</button>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Remove Teacher Modal -->
+    <div class="modal" id="remove-teacher-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Remove Teacher</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="remove-teacher-form">
+                    <div class="form-group">
+                        <label for="remove-teacher-select">Select Teacher</label>
+                        <select id="remove-teacher-select" required>
+                            <option value="">Select Teacher</option>
+                            <!-- Teacher options will be populated here -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="remove-teacher-reason">Reason for Removal</label>
+                        <textarea id="remove-teacher-reason" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="remove-teacher-date">Last Working Date</label>
+                        <input type="date" id="remove-teacher-date" required>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-danger">Remove Teacher</button>
+                        <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Teacher Attendance Modal -->
+    <div class="modal" id="teacher-attendance-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Teacher Attendance</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="teacher-attendance-date">Date</label>
+                        <input type="date" id="teacher-attendance-date" required>
+                    </div>
+                </div>
+                
+                <div class="attendance-list">
+                    <table class="data-table" id="teacher-attendance-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Present</th>
+                                <th>Absent</th>
+                                <th>Leave</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Teacher attendance data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-teacher-attendance">Save Attendance</button>
+                    <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Salary Management Modal -->
+    <div class="modal" id="salary-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Salary Management</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="salary-tabs">
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" data-tab="pay-salary">Pay Salary</button>
+                        <button class="tab-btn" data-tab="salary-structure">Salary Structure</button>
+                        <button class="tab-btn" data-tab="salary-reports">Salary Reports</button>
+                    </div>
+                    
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="pay-salary">
+                            <form id="pay-salary-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="salary-teacher-select">Select Teacher</label>
+                                        <select id="salary-teacher-select" required>
+                                            <option value="">Select Teacher</option>
+                                            <!-- Teacher options will be populated here -->
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="salary-month">Month</label>
+                                        <select id="salary-month" required>
+                                            <option value="">Select Month</option>
+                                            <option value="01">January</option>
+                                            <option value="02">February</option>
+                                            <option value="03">March</option>
+                                            <option value="04">April</option>
+                                            <option value="05">May</option>
+                                            <option value="06">June</option>
+                                            <option value="07">July</option>
+                                            <option value="08">August</option>
+                                            <option value="09">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="salary-year">Year</label>
+                                        <select id="salary-year" required>
+                                            <!-- Year options will be populated here -->
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="salary-amount">Amount</label>
+                                        <input type="number" id="salary-amount" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="salary-payment-date">Payment Date</label>
+                                        <input type="date" id="salary-payment-date" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="salary-payment-mode">Payment Mode</label>
+                                        <select id="salary-payment-mode" required>
+                                            <option value="">Select Payment Mode</option>
+                                            <option value="cash">Cash</option>
+                                            <option value="cheque">Cheque</option>
+                                            <option value="bank-transfer">Bank Transfer</option>
+                                            <option value="upi">UPI</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="salary-transaction-id">Transaction ID/Cheque No.</label>
+                                    <input type="text" id="salary-transaction-id">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="salary-remarks">Remarks</label>
+                                    <textarea id="salary-remarks"></textarea>

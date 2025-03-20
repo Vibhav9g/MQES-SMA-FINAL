@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management - School Management System</title>
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar will be included via JavaScript -->
+        
+        <main class="content">
+            <header class="content-header">
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="user-info">
+                    <span>Admin</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </header>
+            
+            <div class="page-content">
+                <!-- Student Management Page -->
+                <div class="page" id="student-management">
+                    <h1>Student Management</h1>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="add-student-btn">Add Student</button>
+                        <button class="btn btn-danger" id="remove-student-btn">Remove Student</button>
+                        <button class="btn btn-info" id="attendance-btn">Attendance</button>
+                        <button class="btn btn-success" id="fee-btn">Fee Management</button>
+                    </div>
+                    
+                    <div class="student-list-container">
+                        <h2>Student List</h2>
+                        <div class="search-container">
+                            <input type="text" id="student-search" placeholder="Search by name, ID, class...">
+                            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                        </div>
+                        <table class="data-table" id="student-table">
+                            <thead>
+                                <tr>
+                                    <th>GR No.</th>
+                                    <th>Name</th>
+                                    <th>Class</th>
+                                    <th>Section</th>
+                                    <th>Father's Name</th>
+                                    <th>Contact</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Student data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modals -->
+    <!-- Add Student Modal -->
+    <div class="modal" id="add-student-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Student</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="add-student-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="student-gr">GR Number</label>
+                            <input type="text" id="student-gr" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="student-name">Full Name</label>
+                            <input type="text" id="student-name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="student-class">Class</label>
+                            <select id="student-class" required>
+                                <option value="">Select Class</option>
+                                <!-- Class options will be populated here -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="student-section">Section</label>
+                            <select id="student-section" required>
+                                <option value="">Select Section</option>
+                                <!-- Section options will be populated here -->
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="student-dob">Date of Birth</label>
+                            <input type="date" id="student-dob" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="student-gender">Gender</label>
+                            <select id="student-gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="student-father">Father's Name</label>
+                            <input type="text" id="student-father" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="student-mother">Mother's Name</label>
+                            <input type="text" id="student-mother" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="student-contact">Contact Number</label>
+                            <input type="tel" id="student-contact" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="student-email">Email</label>
+                            <input type="email" id="student-email">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="student-address">Address</label>
+                        <textarea id="student-address" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="student-photo">Student Photo</label>
+                            <input type="file" id="student-photo">
+                        </div>
+                        <div class="form-group">
+                            <label for="student-admission-date">Admission Date</label>
+                            <input type="date" id="student-admission-date" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Add Student</button>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Remove Student Modal -->
+    <div class="modal" id="remove-student-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Remove Student</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="remove-student-form">
+                    <div class="form-group">
+                        <label for="remove-student-select">Select Student</label>
+                        <select id="remove-student-select" required>
+                            <option value="">Select Student</option>
+                            <!-- Student options will be populated here -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="remove-reason">Reason for Removal</label>
+                        <textarea id="remove-reason" required></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-danger">Remove Student</button>
+                        <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Attendance Modal -->
+    <div class="modal" id="attendance-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Student Attendance</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="attendance-date">Date</label>
+                        <input type="date" id="attendance-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="attendance-class-select">Class</label>
+                        <select id="attendance-class-select" required>
+                            <option value="">Select Class</option>
+                            <!-- Class options will be populated here -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="attendance-section-select">Section</label>
+                        <select id="attendance-section-select" required>
+                            <option value="">Select Section</option>
+                            <!-- Section options will be populated here -->
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="attendance-list">
+                    <table class="data-table" id="attendance-table">
+                        <thead>
+                            <tr>
+                                <th>GR No.</th>
+                                <th>Name</th>
+                                <th>Present</th>
+                                <th>Absent</th>
+                                <th>Leave</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Attendance data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-attendance">Save Attendance</button>
+                    <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Fee Management Modal -->
+    <div class="modal" id="fee-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Fee Management</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="fee-tabs">
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" data-tab="collect-fee">Collect Fee</button>
+                        <button class="tab-btn" data-tab="fee-structure">Fee Structure</button>
+                        <button class="tab-btn" data-tab="fee-reports">Fee Reports</button>
+                    </div>
+                    
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="collect-fee">
+                            <form id="collect-fee-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="fee-student-select">Select Student</label>
+                                        <select id="fee-student-select" required>
+                                            <option value="">Select Student</option>
+                                            <!-- Student options will be populated here -->
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fee-installment">Installment</label>
+                                        <select id="fee-installment" required>
+                                            <option value="">Select Installment</option>
+                                            <!-- Installment options will be populated here -->
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="fee-amount">Amount</label>
+                                        <input type="number" id="fee-amount" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fee-date">Payment Date</label>
+                                        <input type="date" id="fee-date" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="fee-payment-mode">Payment Mode</label>
+                                        <select id="fee-payment-mode" required>
+                                            <option value="">Select Payment Mode</option>
+                                            <option value="cash">Cash</option>
+                                            <option value="cheque">Cheque</option>
+                                            <option value="online">Online Transfer</option>
+                                            <option value="upi">UPI</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fee-transaction-id">Transaction ID/Cheque No.</label>
+                                        <input type="text" id="fee-transaction-id">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="fee-remarks">Remarks</label>
+                                    <textarea id="fee-remarks"></textarea>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">Collect Fee</button>
+                                    <button type="reset" class="btn btn-secondary">Reset</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="tab-pane" id="fee-structure">
+                            <div class="form-group">
+                                <label for="fee-structure-class">Select Class</label>
+                                <select id="fee-structure-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            
+                            <div class="fee-structure-container">
+                                <table class="data-table" id="fee-structure-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Installment</th>
+                                            <th>Amount</th>
+                                            <th>Due Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Fee structure data will be populated here -->
+                                    </tbody>
+                                </table>
+                                
+                                <button class="btn btn-primary" id="add-installment-btn">Add Installment</button>
+                            </div>
+                        </div>

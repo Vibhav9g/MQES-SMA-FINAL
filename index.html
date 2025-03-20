@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management System</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="src/navigation.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>School Management</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="active"><a href="#" data-page="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#" data-page="student-management"><i class="fas fa-user-graduate"></i> Student Management</a></li>
+                <li><a href="#" data-page="teacher-management"><i class="fas fa-chalkboard-teacher"></i> Teacher Management</a></li>
+                <li><a href="#" data-page="class-management"><i class="fas fa-school"></i> Class Management</a></li>
+                <li><a href="#" data-page="whatsapp-section"><i class="fab fa-whatsapp"></i> WhatsApp Section</a></li>
+                <li><a href="#" data-page="exam-management"><i class="fas fa-file-alt"></i> Exam Management</a></li>
+                <li><a href="#" data-page="leaving-certificate"><i class="fas fa-certificate"></i> Leaving Certificate</a></li>
+                <li><a href="#" data-page="reports"><i class="fas fa-chart-bar"></i> Reports</a></li>
+            </ul>
+        </nav>
+        
+        <main class="content">
+            <header class="content-header">
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="user-info">
+                    <span>Admin</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </header>
+            
+            <div class="page-content">
+                <!-- Dashboard Page -->
+                <div class="page" id="dashboard">
+                    <h1>Dashboard</h1>
+                    <div class="dashboard-cards">
+                        <div class="card">
+                            <div class="card-icon bg-primary">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <div class="card-info">
+                                <h3>Total Students</h3>
+                                <h2 id="total-students">0</h2>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon bg-success">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                            </div>
+                            <div class="card-info">
+                                <h3>Total Teachers</h3>
+                                <h2 id="total-teachers">0</h2>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon bg-info">
+                                <i class="fas fa-rupee-sign"></i>
+                            </div>
+                            <div class="card-info">
+                                <h3>Total Fee Collection</h3>
+                                <h2 id="total-fee">₹0</h2>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon bg-warning">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div class="card-info">
+                                <h3>Total Salary Payments</h3>
+                                <h2 id="total-salary">₹0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-charts">
+                        <div class="chart-container">
+                            <h3>Fee Collection Overview</h3>
+                            <canvas id="fee-chart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Attendance Overview</h3>
+                            <canvas id="attendance-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Student Management Page -->
+                <div class="page" id="student-management" style="display: none;">
+                    <h1>Student Management</h1>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="add-student-btn">Add Student</button>
+                        <button class="btn btn-danger" id="remove-student-btn">Remove Student</button>
+                        <button class="btn btn-info" id="attendance-btn">Attendance</button>
+                        <button class="btn btn-success" id="fee-btn">Fee Management</button>
+                    </div>
+                    
+                    <div class="student-list-container">
+                        <h2>Student List</h2>
+                        <div class="search-container">
+                            <input type="text" id="student-search" placeholder="Search by name, ID, class...">
+                            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                        </div>
+                        <table class="data-table" id="student-table">
+                            <thead>
+                                <tr>
+                                    <th>GR No.</th>
+                                    <th>Name</th>
+                                    <th>Class</th>
+                                    <th>Section</th>
+                                    <th>Father's Name</th>
+                                    <th>Contact</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Student data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Teacher Management Page -->
+                <div class="page" id="teacher-management" style="display: none;">
+                    <h1>Teacher Management</h1>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="add-teacher-btn">Add Teacher</button>
+                        <button class="btn btn-danger" id="remove-teacher-btn">Remove Teacher</button>
+                        <button class="btn btn-info" id="teacher-attendance-btn">Attendance</button>
+                        <button class="btn btn-success" id="salary-btn">Salary Management</button>
+                    </div>
+                    
+                    <div class="teacher-list-container">
+                        <h2>Teacher List</h2>
+                        <div class="search-container">
+                            <input type="text" id="teacher-search" placeholder="Search by name, subject, class...">
+                            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                        </div>
+                        <table class="data-table" id="teacher-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Subjects</th>
+                                    <th>Classes</th>
+                                    <th>Contact</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Teacher data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Class Management Page -->
+                <div class="page" id="class-management" style="display: none;">
+                    <h1>Class Management</h1>
+                    <div class="class-selection">
+                        <select id="class-select">
+                            <option value="">Select Class</option>
+                            <!-- Class options will be populated here -->
+                        </select>
+                    </div>
+                    
+                    <div class="class-details" style="display: none;">
+                        <div class="class-info-cards">
+                            <div class="card">
+                                <div class="card-icon bg-primary">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="card-info">
+                                    <h3>Total Students</h3>
+                                    <h2 id="class-total-students">0</h2>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-icon bg-success">
+                                    <i class="fas fa-chair"></i>
+                                </div>
+                                <div class="card-info">
+                                    <h3>Total Benches</h3>
+                                    <h2 id="class-total-benches">0</h2>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-icon bg-info">
+                                    <i class="fas fa-chalkboard-teacher"></i>
+                                </div>
+                                <div class="card-info">
+                                    <h3>Class Teacher</h3>
+                                    <h2 id="class-teacher">-</h2>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="class-tabs">
+                            <div class="tab-buttons">
+                                <button class="tab-btn active" data-tab="students-tab">Students</button>
+                                <button class="tab-btn" data-tab="timetable-tab">Time Table</button>
+                                <button class="tab-btn" data-tab="subjects-tab">Subject Teachers</button>
+                            </div>
+                            
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="students-tab">
+                                    <div class="search-container">
+                                        <input type="text" id="class-student-search" placeholder="Search student...">
+                                        <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                                    </div>
+                                    <table class="data-table" id="class-student-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Roll No.</th>
+                                                <th>GR No.</th>
+                                                <th>Name</th>
+                                                <th>Father's Name</th>
+                                                <th>Contact</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Class student data will be populated here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="tab-pane" id="timetable-tab">
+                                    <div class="timetable-container">
+                                        <table class="timetable" id="class-timetable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Time/Day</th>
+                                                    <th>Monday</th>
+                                                    <th>Tuesday</th>
+                                                    <th>Wednesday</th>
+                                                    <th>Thursday</th>
+                                                    <th>Friday</th>
+                                                    <th>Saturday</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Timetable data will be populated here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                
+                                <div class="tab-pane" id="subjects-tab">
+                                    <table class="data-table" id="subject-teacher-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Subject</th>
+                                                <th>Teacher</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Subject teacher data will be populated here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- WhatsApp Section Page -->
+                <div class="page" id="whatsapp-section" style="display: none;">
+                    <h1>WhatsApp Section</h1>
+                    <div class="whatsapp-settings">
+                        <div class="form-group">
+                            <label for="whatsapp-number">WhatsApp Number for Sending Messages</label>
+                            <input type="text" id="whatsapp-number" placeholder="Enter WhatsApp number with country code">
+                            <button class="btn btn-primary" id="save-whatsapp-number">Save</button>
+                        </div>
+                    </div>
+                    
+                    <div class="whatsapp-actions">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Fee Reminders</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Send fee reminders to students who have not paid their fees on time.</p>
+                                <button class="btn btn-primary" id="send-fee-reminders">Send Reminders</button>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Send Notes</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="notes-class">Select Class</label>
+                                    <select id="notes-class">
+                                        <option value="">Select Class</option>
+                                        <!-- Class options will be populated here -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="notes-message">Message</label>
+                                    <textarea id="notes-message" placeholder="Enter your message"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="notes-attachment">Attachment (Optional)</label>
+                                    <input type="file" id="notes-attachment">
+                                </div>
+                                <button class="btn btn-primary" id="send-notes">Send Notes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Exam Management Page -->
+                <div class="page" id="exam-management" style="display: none;">
+                    <h1>Exam Management</h1>
+                    <div class="exam-actions">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Exam Time Table</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="exam-class">Select Class</label>
+                                    <select id="exam-class">
+                                        <option value="">Select Class</option>
+                                        <!-- Class options will be populated here -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exam-name">Exam Name</label>
+                                    <input type="text" id="exam-name" placeholder="Enter exam name">
+                                </div>
+                                <button class="btn btn-primary" id="create-exam-timetable">Create Time Table</button>
+                                <button class="btn btn-success" id="send-exam-timetable">Send to WhatsApp</button>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Sitting Arrangement</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="sitting-exam">Select Exam</label>
+                                    <select id="sitting-exam">
+                                        <option value="">Select Exam</option>
+                                        <!-- Exam options will be populated here -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sitting-class">Select Class</label>
+                                    <select id="sitting-class">
+                                        <option value="">Select Class</option>
+                                        <!-- Class options will be populated here -->
+                                    </select>
+                                </div>
+                                <button class="btn btn-primary" id="generate-sitting">Generate Sitting Arrangement</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="exam-timetable-container" style="display: none;">
+                        <h2>Exam Time Table</h2>
+                        <div class="exam-details">
+                            <p><strong>Class:</strong> <span id="exam-timetable-class"></span></p>
+                            <p><strong>Exam:</strong> <span id="exam-timetable-name"></span></p>
+                        </div>
+                        <table class="data-table" id="exam-timetable-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Day</th>
+                                    <th>Time</th>
+                                    <th>Subject</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Exam timetable data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="sitting-arrangement-container" style="display: none;">
+                        <h2>Sitting Arrangement</h2>
+                        <div class="sitting-details">
+                            <p><strong>Class:</strong> <span id="sitting-arrangement-class"></span></p>
+                            <p><strong>Exam:</strong> <span id="sitting-arrangement-exam"></span></p>
+                        </div>
+                        <div class="classroom-layout" id="classroom-layout">
+                            <!-- Classroom layout will be generated here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Leaving Certificate Page -->
+                <div class="page" id="leaving-certificate" style="display: none;">
+                    <h1>Leaving Certificate</h1>
+                    <div class="leaving-certificate-form">
+                        <div class="form-group">
+                            <label for="lc-student">Select Student</label>
+                            <select id="lc-student">
+                                <option value="">Select Student</option>
+                                <!-- Student options will be populated here -->
+                            </select>
+                        </div>
+                        
+                        <div class="student-details" style="display: none;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="lc-last-school">Last School Attended</label>
+                                    <input type="text" id="lc-last-school">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lc-last-standard">Last Standard</label>
+                                    <input type="text" id="lc-last-standard">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="lc-progress">Progress (if any)</label>
+                                    <input type="text" id="lc-progress">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lc-conduct">Conduct (if any)</label>
+                                    <input type="text" id="lc-conduct">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="lc-leaving-date">Date of Leaving School</label>
+                                    <input type="date" id="lc-leaving-date">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lc-current-standard">Standard in which Studying</label>
+                                    <input type="text" id="lc-current-standard">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="lc-since-when">Since When</label>
+                                    <input type="date" id="lc-since-when">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lc-reason">Reason for Leaving School</label>
+                                    <input type="text" id="lc-reason">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="lc-remarks">Remarks (if any)</label>
+                                <textarea id="lc-remarks"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="lc-certificate-upload">Upload Certificate Template</label>
+                                <input type="file" id="lc-certificate-upload">
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button class="btn btn-primary" id="generate-lc">Generate Certificate</button>
+                                <button class="btn btn-success" id="print-lc">Print Certificate</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="certificate-preview" style="display: none;">
+                        <h2>Certificate Preview</h2>
+                        <div class="certificate-container" id="certificate-container">
+                            <!-- Certificate preview will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reports Page -->
+                <div class="page" id="reports" style="display: none;">
+                    <h1>Reports</h1>
+                    <div class="reports-tabs">
+                        <div class="tab-buttons">
+                            <button class="tab-btn active" data-tab="class-reports">Class Reports</button>
+                            <button class="tab-btn" data-tab="teacher-reports">Teacher Reports</button>
+                            <button class="tab-btn" data-tab="fee-reports">Fee Reports</button>
+                            <button class="tab-btn" data-tab="attendance-reports">Attendance Reports</button>
+                        </div>
+                        
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="class-reports">
+                                <div class="form-group">
+                                    <label for="report-class">Select Class</label>
+                                    <select id="report-class">
+                                        <option value="">Select Class</option>
+                                        <!-- Class options will be populated here -->
+                                    </select>
+                                    <button class="btn btn-primary" id="generate-class-report">Generate Report</button>
+                                </div>
+                                
+                                <div class="report-container" id="class-report-container" style="display: none;">
+                                    <!-- Class report will be displayed here -->
+                                </div>
+                            </div>
+                            
+                            <div class="tab-pane" id="teacher-reports">
+                                <div class="form-group">
+                                    <label for="report-teacher">Select Teacher</label>
+                                    <select id="report-teacher">
+                                        <option value="">Select Teacher</option>
+                                        <!-- Teacher options will be populated here -->
+                                    </select>
+                                    <button class="btn btn-primary" id="generate-teacher-report">Generate Report</button>
+                                </div>
+                                
+                                <div class="report-container" id="teacher-report-container" style="display: none;">
+                                    <!-- Teacher report will be displayed here -->
+                                </div>
+                            </div>
+                            
+                            <div class="tab-pane" id="fee-reports">
+                                <div class="form-group">
+                                    <label for="fee-report-type">Report Type</label>
+                                    <select id="fee-report-type">
+                                        <option value="total">Total Fee Collection</option>
+                                        <option value="pending">Pending Fee Students</option>
+                                    </select>
+                                    <button class="btn btn-primary" id="generate-fee-report">Generate Report</button>
+                                </div>
+                                
+                                <div class="report-container" id="fee-report-container" style="display: none;">
+                                    <!-- Fee report will be displayed here -->
+                                </div>
+                            </div>
+                            
+                            <div class="tab-pane" id="attendance-reports">
+                                <div class="form-group">
+                                    <label for="attendance-report-type">Report Type</label>
+                                    <select id="attendance-report-type">
+                                        <option value="class">Class Average Attendance</option>
+                                        <option value="student">Student Attendance</option>
+                                        <option value="teacher">Teacher Attendance</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group attendance-class-select" style="display: none;">
+                                    <label for="attendance-class">Select Class</label>
+                                    <select id="attendance-class">
+                                        <option value="">Select Class</option>
+                                        <!-- Class options will be populated here -->
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group attendance-student-select" style="display: none;">
+                                    <label for="attendance-student">Select Student</label>
+                                    <select id="attendance-student">
+                                        <option value="">Select Student</option>
+                                        <!-- Student options will be populated here -->
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group attendance-teacher-select" style="display: none;">
+                                    <label for="attendance-teacher">Select Teacher</label>
+                                    <select id="attendance-teacher">
+                                        <option value="">Select Teacher</option>
+                                        <!-- Teacher options will be populated here -->
+                                    </select>
+                                </div>
+                                
+                                <button class="btn btn-primary" id="generate-attendance-report">Generate Report</button>
+                                
+                                <div class="report-container" id="attendance-report-container" style="display: none;">
+                                    <!-- Attendance report will be displayed here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modals -->
+    <!-- Add Student Modal -->
+    <div class="modal" id="add-student-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Student</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="add-student-form">
+                    <div class="form-section">
+                        <h3>Personal Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-name">Name</label>
+                                <input type="text" id="student-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-gr">GR No.</label>
+                                <input type="text" id="student-gr" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-father">Father's Name</label>
+                                <input type="text" id="student-father" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-mother">Mother's Name</label>
+                                <input type="text" id="student-mother" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">
+                                    <option value="">Select Section</option>
+                                    <!-- Section options will be populated here -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="student-class">Class</label>
+                                <select id="student-class" required>
+                                    <option value="">Select Class</option>
+                                    <!-- Class options will be populated here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="student-section">Section</label>
+                                <select id="student-section">

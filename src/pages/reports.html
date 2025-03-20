@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - School Management System</title>
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar will be included via JavaScript -->
+        
+        <main class="content">
+            <header class="content-header">
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="user-info">
+                    <span>Admin</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </header>
+            
+            <div class="page-content">
+                <!-- Reports Page -->
+                <div class="page" id="reports">
+                    <h1>Reports</h1>
+                    
+                    <div class="reports-dashboard">
+                        <div class="reports-categories">
+                            <div class="category-card" data-category="student">
+                                <div class="category-icon bg-primary">
+                                    <i class="fas fa-user-graduate"></i>
+                                </div>
+                                <div class="category-info">
+                                    <h3>Student Reports</h3>
+                                </div>
+                            </div>
+                            <div class="category-card" data-category="teacher">
+                                <div class="category-icon bg-success">
+                                    <i class="fas fa-chalkboard-teacher"></i>
+                                </div>
+                                <div class="category-info">
+                                    <h3>Teacher Reports</h3>
+                                </div>
+                            </div>
+                            <div class="category-card" data-category="exam">
+                                <div class="category-icon bg-info">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="category-info">
+                                    <h3>Exam Reports</h3>
+                                </div>
+                            </div>
+                            <div class="category-card" data-category="finance">
+                                <div class="category-icon bg-warning">
+                                    <i class="fas fa-rupee-sign"></i>
+                                </div>
+                                <div class="category-info">
+                                    <h3>Financial Reports</h3>
+                                </div>
+                            </div>
+                            <div class="category-card" data-category="attendance">
+                                <div class="category-icon bg-danger">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="category-info">
+                                    <h3>Attendance Reports</h3>
+                                </div>
+                            </div>
+                            <div class="category-card" data-category="custom">
+                                <div class="category-icon bg-secondary">
+                                    <i class="fas fa-cog"></i>
+                                </div>
+                                <div class="category-info">
+                                    <h3>Custom Reports</h3>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="report-generator">
+                            <h2>Generate Report</h2>
+                            <div class="report-options">
+                                <div class="form-group">
+                                    <label for="report-type">Report Type</label>
+                                    <select id="report-type" required>
+                                        <option value="">Select Report Type</option>
+                                        <!-- Report types will be populated based on category -->
+                                    </select>
+                                </div>
+                                
+                                <div id="report-parameters">
+                                    <!-- Dynamic parameters will be added here based on report type -->
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="report-format">Report Format</label>
+                                    <select id="report-format" required>
+                                        <option value="pdf">PDF</option>
+                                        <option value="excel">Excel</option>
+                                        <option value="csv">CSV</option>
+                                        <option value="print">Print</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-primary" id="generate-report-btn">Generate Report</button>
+                                    <button type="button" class="btn btn-secondary" id="reset-report-btn">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="recent-reports">
+                            <h2>Recent Reports</h2>
+                            <table class="data-table" id="recent-reports-table">
+                                <thead>
+                                    <tr>
+                                        <th>Report Name</th>
+                                        <th>Category</th>
+                                        <th>Generated On</th>
+                                        <th>Generated By</th>
+                                        <th>Format</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Recent reports will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modals -->
+    <!-- Student Reports Modal -->
+    <div class="modal" id="student-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Student Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="report-list">
+                    <div class="report-item" data-report="student-list">
+                        <div class="report-icon">
+                            <i class="fas fa-list"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Monthly Attendance</h3>
+                            <p>Generate monthly attendance reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Student Attendance Summary</h3>
+                            <p>Generate student attendance summary reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Teacher Attendance Summary</h3>
+                            <p>Generate teacher attendance summary reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Reports Modal -->
+    <div class="modal" id="custom-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Custom Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="custom-report-name">Report Name</label>
+                    <input type="text" id="custom-report-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-description">Description</label>
+                    <textarea id="custom-report-description" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-query">SQL Query</label>
+                    <textarea id="custom-report-query" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Parameters</label>
+                    <div class="custom-parameters">
+                        <div class="parameter-row">
+                            <input type="text" placeholder="Parameter Name" class="parameter-name">
+                            <select class="parameter-type">
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="select">Select</option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-danger remove-parameter"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary" id="add-parameter">Add Parameter</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-custom-report">Save Report</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-custom-report">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../src/main.js"></script>
+</body>
+</html>
+                            <h3>Student List</h3>
+                            <p>Generate a list of all students with their details</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-performance">
+                        <div class="report-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Monthly Attendance</h3>
+                            <p>Generate monthly attendance reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Student Attendance Summary</h3>
+                            <p>Generate student attendance summary reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Teacher Attendance Summary</h3>
+                            <p>Generate teacher attendance summary reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Reports Modal -->
+    <div class="modal" id="custom-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Custom Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="custom-report-name">Report Name</label>
+                    <input type="text" id="custom-report-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-description">Description</label>
+                    <textarea id="custom-report-description" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-query">SQL Query</label>
+                    <textarea id="custom-report-query" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Parameters</label>
+                    <div class="custom-parameters">
+                        <div class="parameter-row">
+                            <input type="text" placeholder="Parameter Name" class="parameter-name">
+                            <select class="parameter-type">
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="select">Select</option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-danger remove-parameter"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary" id="add-parameter">Add Parameter</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-custom-report">Save Report</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-custom-report">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../src/main.js"></script>
+</body>
+</html>
+                            <h3>Student Performance</h3>
+                            <p>Generate performance reports for students</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-attendance">
+                        <div class="report-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Monthly Attendance</h3>
+                            <p>Generate monthly attendance reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Student Attendance Summary</h3>
+                            <p>Generate student attendance summary reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Teacher Attendance Summary</h3>
+                            <p>Generate teacher attendance summary reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Reports Modal -->
+    <div class="modal" id="custom-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Custom Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="custom-report-name">Report Name</label>
+                    <input type="text" id="custom-report-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-description">Description</label>
+                    <textarea id="custom-report-description" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-query">SQL Query</label>
+                    <textarea id="custom-report-query" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Parameters</label>
+                    <div class="custom-parameters">
+                        <div class="parameter-row">
+                            <input type="text" placeholder="Parameter Name" class="parameter-name">
+                            <select class="parameter-type">
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="select">Select</option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-danger remove-parameter"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary" id="add-parameter">Add Parameter</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-custom-report">Save Report</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-custom-report">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../src/main.js"></script>
+</body>
+</html>
+                            <h3>Student Attendance</h3>
+                            <p>Generate attendance reports for students</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-fee">
+                        <div class="report-icon">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Monthly Attendance</h3>
+                            <p>Generate monthly attendance reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Student Attendance Summary</h3>
+                            <p>Generate student attendance summary reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Teacher Attendance Summary</h3>
+                            <p>Generate teacher attendance summary reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Reports Modal -->
+    <div class="modal" id="custom-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Custom Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="custom-report-name">Report Name</label>
+                    <input type="text" id="custom-report-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-description">Description</label>
+                    <textarea id="custom-report-description" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-query">SQL Query</label>
+                    <textarea id="custom-report-query" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Parameters</label>
+                    <div class="custom-parameters">
+                        <div class="parameter-row">
+                            <input type="text" placeholder="Parameter Name" class="parameter-name">
+                            <select class="parameter-type">
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="select">Select</option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-danger remove-parameter"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary" id="add-parameter">Add Parameter</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-custom-report">Save Report</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-custom-report">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../src/main.js"></script>
+</body>
+</html>
+                            <h3>Student Fee</h3>
+                            <p>Generate fee payment reports for students</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Teacher Reports Modal -->
+    <div class="modal" id="teacher-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Teacher Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="report-list">
+                    <div class="report-item" data-report="teacher-list">
+                        <div class="report-icon">
+                            <i class="fas fa-list"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Monthly Attendance</h3>
+                            <p>Generate monthly attendance reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Student Attendance Summary</h3>
+                            <p>Generate student attendance summary reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Teacher Attendance Summary</h3>
+                            <p>Generate teacher attendance summary reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Reports Modal -->
+    <div class="modal" id="custom-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Custom Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="custom-report-name">Report Name</label>
+                    <input type="text" id="custom-report-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-description">Description</label>
+                    <textarea id="custom-report-description" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-query">SQL Query</label>
+                    <textarea id="custom-report-query" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Parameters</label>
+                    <div class="custom-parameters">
+                        <div class="parameter-row">
+                            <input type="text" placeholder="Parameter Name" class="parameter-name">
+                            <select class="parameter-type">
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="select">Select</option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-danger remove-parameter"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary" id="add-parameter">Add Parameter</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-custom-report">Save Report</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-custom-report">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../src/main.js"></script>
+</body>
+</html>
+                            <h3>Teacher List</h3>
+                            <p>Generate a list of all teachers with their details</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-attendance">
+                        <div class="report-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Monthly Attendance</h3>
+                            <p>Generate monthly attendance reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Student Attendance Summary</h3>
+                            <p>Generate student attendance summary reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Teacher Attendance Summary</h3>
+                            <p>Generate teacher attendance summary reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Reports Modal -->
+    <div class="modal" id="custom-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Custom Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="custom-report-name">Report Name</label>
+                    <input type="text" id="custom-report-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-description">Description</label>
+                    <textarea id="custom-report-description" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-query">SQL Query</label>
+                    <textarea id="custom-report-query" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Parameters</label>
+                    <div class="custom-parameters">
+                        <div class="parameter-row">
+                            <input type="text" placeholder="Parameter Name" class="parameter-name">
+                            <select class="parameter-type">
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="select">Select</option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-danger remove-parameter"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary" id="add-parameter">Add Parameter</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-custom-report">Save Report</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-custom-report">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../src/main.js"></script>
+</body>
+</html>
+                            <h3>Teacher Attendance</h3>
+                            <p>Generate attendance reports for teachers</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-salary">
+                        <div class="report-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Monthly Attendance</h3>
+                            <p>Generate monthly attendance reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Student Attendance Summary</h3>
+                            <p>Generate student attendance summary reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Teacher Attendance Summary</h3>
+                            <p>Generate teacher attendance summary reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Reports Modal -->
+    <div class="modal" id="custom-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Custom Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="custom-report-name">Report Name</label>
+                    <input type="text" id="custom-report-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-description">Description</label>
+                    <textarea id="custom-report-description" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-query">SQL Query</label>
+                    <textarea id="custom-report-query" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Parameters</label>
+                    <div class="custom-parameters">
+                        <div class="parameter-row">
+                            <input type="text" placeholder="Parameter Name" class="parameter-name">
+                            <select class="parameter-type">
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="select">Select</option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-danger remove-parameter"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary" id="add-parameter">Add Parameter</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-custom-report">Save Report</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-custom-report">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../src/main.js"></script>
+</body>
+</html>
+                            <h3>Teacher Salary</h3>
+                            <p>Generate salary payment reports for teachers</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-performance">
+                        <div class="report-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Monthly Attendance</h3>
+                            <p>Generate monthly attendance reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Student Attendance Summary</h3>
+                            <p>Generate student attendance summary reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Teacher Attendance Summary</h3>
+                            <p>Generate teacher attendance summary reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Reports Modal -->
+    <div class="modal" id="custom-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Custom Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="custom-report-name">Report Name</label>
+                    <input type="text" id="custom-report-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-description">Description</label>
+                    <textarea id="custom-report-description" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-query">SQL Query</label>
+                    <textarea id="custom-report-query" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Parameters</label>
+                    <div class="custom-parameters">
+                        <div class="parameter-row">
+                            <input type="text" placeholder="Parameter Name" class="parameter-name">
+                            <select class="parameter-type">
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="select">Select</option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-danger remove-parameter"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary" id="add-parameter">Add Parameter</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-custom-report">Save Report</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-custom-report">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../src/main.js"></script>
+</body>
+</html>
+                            <h3>Teacher Performance</h3>
+                            <p>Generate performance reports for teachers</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Exam Reports Modal -->
+    <div class="modal" id="exam-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Exam Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="report-list">
+                    <div class="report-item" data-report="exam-results">
+                        <div class="report-icon">
+                            <i class="fas fa-poll"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Monthly Attendance</h3>
+                            <p>Generate monthly attendance reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Student Attendance Summary</h3>
+                            <p>Generate student attendance summary reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Teacher Attendance Summary</h3>
+                            <p>Generate teacher attendance summary reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Reports Modal -->
+    <div class="modal" id="custom-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Custom Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="custom-report-name">Report Name</label>
+                    <input type="text" id="custom-report-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-description">Description</label>
+                    <textarea id="custom-report-description" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-query">SQL Query</label>
+                    <textarea id="custom-report-query" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Parameters</label>
+                    <div class="custom-parameters">
+                        <div class="parameter-row">
+                            <input type="text" placeholder="Parameter Name" class="parameter-name">
+                            <select class="parameter-type">
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="select">Select</option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-danger remove-parameter"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary" id="add-parameter">Add Parameter</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-custom-report">Save Report</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-custom-report">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../src/main.js"></script>
+</body>
+</html>
+                            <h3>Exam Results</h3>
+                            <p>Generate exam results for classes or individual students</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="class-performance">
+                        <div class="report-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Monthly Attendance</h3>
+                            <p>Generate monthly attendance reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Student Attendance Summary</h3>
+                            <p>Generate student attendance summary reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Teacher Attendance Summary</h3>
+                            <p>Generate teacher attendance summary reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Reports Modal -->
+    <div class="modal" id="custom-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Custom Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="custom-report-name">Report Name</label>
+                    <input type="text" id="custom-report-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-description">Description</label>
+                    <textarea id="custom-report-description" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-query">SQL Query</label>
+                    <textarea id="custom-report-query" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Parameters</label>
+                    <div class="custom-parameters">
+                        <div class="parameter-row">
+                            <input type="text" placeholder="Parameter Name" class="parameter-name">
+                            <select class="parameter-type">
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="select">Select</option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-danger remove-parameter"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary" id="add-parameter">Add Parameter</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-custom-report">Save Report</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-custom-report">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../src/main.js"></script>
+</body>
+</html>
+                            <h3>Class Performance</h3>
+                            <p>Generate performance reports for classes</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="subject-analysis">
+                        <div class="report-icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Monthly Attendance</h3>
+                            <p>Generate monthly attendance reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Student Attendance Summary</h3>
+                            <p>Generate student attendance summary reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Teacher Attendance Summary</h3>
+                            <p>Generate teacher attendance summary reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Reports Modal -->
+    <div class="modal" id="custom-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Custom Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="custom-report-name">Report Name</label>
+                    <input type="text" id="custom-report-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-description">Description</label>
+                    <textarea id="custom-report-description" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-query">SQL Query</label>
+                    <textarea id="custom-report-query" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Parameters</label>
+                    <div class="custom-parameters">
+                        <div class="parameter-row">
+                            <input type="text" placeholder="Parameter Name" class="parameter-name">
+                            <select class="parameter-type">
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="select">Select</option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-danger remove-parameter"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary" id="add-parameter">Add Parameter</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-custom-report">Save Report</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-custom-report">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../src/main.js"></script>
+</body>
+</html>
+                            <h3>Subject Analysis</h3>
+                            <p>Generate subject-wise performance analysis</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="toppers-list">
+                        <div class="report-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Monthly Attendance</h3>
+                            <p>Generate monthly attendance reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Student Attendance Summary</h3>
+                            <p>Generate student attendance summary reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Teacher Attendance Summary</h3>
+                            <p>Generate teacher attendance summary reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Reports Modal -->
+    <div class="modal" id="custom-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Custom Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="custom-report-name">Report Name</label>
+                    <input type="text" id="custom-report-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-description">Description</label>
+                    <textarea id="custom-report-description" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-query">SQL Query</label>
+                    <textarea id="custom-report-query" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Parameters</label>
+                    <div class="custom-parameters">
+                        <div class="parameter-row">
+                            <input type="text" placeholder="Parameter Name" class="parameter-name">
+                            <select class="parameter-type">
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="select">Select</option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-danger remove-parameter"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary" id="add-parameter">Add Parameter</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-custom-report">Save Report</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-custom-report">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../src/main.js"></script>
+</body>
+</html>
+                            <h3>Toppers List</h3>
+                            <p>Generate list of top performers in exams</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Financial Reports Modal -->
+    <div class="modal" id="finance-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Financial Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="report-list">
+                    <div class="report-item" data-report="fee-collection">
+                        <div class="report-icon">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Monthly Attendance</h3>
+                            <p>Generate monthly attendance reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Student Attendance Summary</h3>
+                            <p>Generate student attendance summary reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Teacher Attendance Summary</h3>
+                            <p>Generate teacher attendance summary reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Reports Modal -->
+    <div class="modal" id="custom-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Custom Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="custom-report-name">Report Name</label>
+                    <input type="text" id="custom-report-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-description">Description</label>
+                    <textarea id="custom-report-description" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-query">SQL Query</label>
+                    <textarea id="custom-report-query" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Parameters</label>
+                    <div class="custom-parameters">
+                        <div class="parameter-row">
+                            <input type="text" placeholder="Parameter Name" class="parameter-name">
+                            <select class="parameter-type">
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="select">Select</option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-danger remove-parameter"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary" id="add-parameter">Add Parameter</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-custom-report">Save Report</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-custom-report">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../src/main.js"></script>
+</body>
+</html>
+                            <h3>Fee Collection</h3>
+                            <p>Generate fee collection reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="salary-payment">
+                        <div class="report-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Monthly Attendance</h3>
+                            <p>Generate monthly attendance reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Student Attendance Summary</h3>
+                            <p>Generate student attendance summary reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Teacher Attendance Summary</h3>
+                            <p>Generate teacher attendance summary reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Reports Modal -->
+    <div class="modal" id="custom-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Custom Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="custom-report-name">Report Name</label>
+                    <input type="text" id="custom-report-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-description">Description</label>
+                    <textarea id="custom-report-description" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-query">SQL Query</label>
+                    <textarea id="custom-report-query" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Parameters</label>
+                    <div class="custom-parameters">
+                        <div class="parameter-row">
+                            <input type="text" placeholder="Parameter Name" class="parameter-name">
+                            <select class="parameter-type">
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="select">Select</option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-danger remove-parameter"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary" id="add-parameter">Add Parameter</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-custom-report">Save Report</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-custom-report">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../src/main.js"></script>
+</body>
+</html>
+                            <h3>Salary Payment</h3>
+                            <p>Generate salary payment reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="expense-report">
+                        <div class="report-icon">
+                            <i class="fas fa-file-invoice"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Monthly Attendance</h3>
+                            <p>Generate monthly attendance reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Student Attendance Summary</h3>
+                            <p>Generate student attendance summary reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Teacher Attendance Summary</h3>
+                            <p>Generate teacher attendance summary reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Reports Modal -->
+    <div class="modal" id="custom-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Custom Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="custom-report-name">Report Name</label>
+                    <input type="text" id="custom-report-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-description">Description</label>
+                    <textarea id="custom-report-description" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-query">SQL Query</label>
+                    <textarea id="custom-report-query" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Parameters</label>
+                    <div class="custom-parameters">
+                        <div class="parameter-row">
+                            <input type="text" placeholder="Parameter Name" class="parameter-name">
+                            <select class="parameter-type">
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="select">Select</option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-danger remove-parameter"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary" id="add-parameter">Add Parameter</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-custom-report">Save Report</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-custom-report">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../src/main.js"></script>
+</body>
+</html>
+                            <h3>Expense Report</h3>
+                            <p>Generate expense reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="financial-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Monthly Attendance</h3>
+                            <p>Generate monthly attendance reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Student Attendance Summary</h3>
+                            <p>Generate student attendance summary reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Teacher Attendance Summary</h3>
+                            <p>Generate teacher attendance summary reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Reports Modal -->
+    <div class="modal" id="custom-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Custom Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="custom-report-name">Report Name</label>
+                    <input type="text" id="custom-report-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-description">Description</label>
+                    <textarea id="custom-report-description" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-query">SQL Query</label>
+                    <textarea id="custom-report-query" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Parameters</label>
+                    <div class="custom-parameters">
+                        <div class="parameter-row">
+                            <input type="text" placeholder="Parameter Name" class="parameter-name">
+                            <select class="parameter-type">
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="select">Select</option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-danger remove-parameter"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary" id="add-parameter">Add Parameter</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-custom-report">Save Report</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-custom-report">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../src/main.js"></script>
+</body>
+</html>
+                            <h3>Financial Summary</h3>
+                            <p>Generate financial summary reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Attendance Reports Modal -->
+    <div class="modal" id="attendance-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Attendance Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="report-list">
+                    <div class="report-item" data-report="daily-attendance">
+                        <div class="report-icon">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Monthly Attendance</h3>
+                            <p>Generate monthly attendance reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Student Attendance Summary</h3>
+                            <p>Generate student attendance summary reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Teacher Attendance Summary</h3>
+                            <p>Generate teacher attendance summary reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Reports Modal -->
+    <div class="modal" id="custom-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Custom Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="custom-report-name">Report Name</label>
+                    <input type="text" id="custom-report-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-description">Description</label>
+                    <textarea id="custom-report-description" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-query">SQL Query</label>
+                    <textarea id="custom-report-query" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Parameters</label>
+                    <div class="custom-parameters">
+                        <div class="parameter-row">
+                            <input type="text" placeholder="Parameter Name" class="parameter-name">
+                            <select class="parameter-type">
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="select">Select</option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-danger remove-parameter"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary" id="add-parameter">Add Parameter</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-custom-report">Save Report</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-custom-report">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../src/main.js"></script>
+</body>
+</html>
+                            <h3>Daily Attendance</h3>
+                            <p>Generate daily attendance reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="monthly-attendance">
+                        <div class="report-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Monthly Attendance</h3>
+                            <p>Generate monthly attendance reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="student-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Student Attendance Summary</h3>
+                            <p>Generate student attendance summary reports</p>
+                        </div>
+                    </div>
+                    <div class="report-item" data-report="teacher-attendance-summary">
+                        <div class="report-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="report-info">
+                            <h3>Teacher Attendance Summary</h3>
+                            <p>Generate teacher attendance summary reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Custom Reports Modal -->
+    <div class="modal" id="custom-reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Custom Reports</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="custom-report-name">Report Name</label>
+                    <input type="text" id="custom-report-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-description">Description</label>
+                    <textarea id="custom-report-description" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="custom-report-query">SQL Query</label>
+                    <textarea id="custom-report-query" rows="5" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Parameters</label>
+                    <div class="custom-parameters">
+                        <div class="parameter-row">
+                            <input type="text" placeholder="Parameter Name" class="parameter-name">
+                            <select class="parameter-type">
+                                <option value="text">Text</option>
+                                <option value="number">Number</option>
+                                <option value="date">Date</option>
+                                <option value="select">Select</option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-danger remove-parameter"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary" id="add-parameter">Add Parameter</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" id="save-custom-report">Save Report</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-custom-report">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../../src/main.js"></script>
+</body>
+</html>
